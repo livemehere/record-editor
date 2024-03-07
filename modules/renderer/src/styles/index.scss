@@ -1,0 +1,31 @@
+@import './reset';
+@import './colors';
+@import './fonts';
+
+html {
+}
+
+body {
+  color-scheme: light;
+  background-color: $background;
+  color: $black;
+
+  &.dark {
+    color-scheme: dark;
+    background-color: $darkFloatBackground;
+    color: $whiteOpacity800;
+  }
+}
+
+* {
+  font-family: 'Noto Sans KR', sans-serif;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    background-color: var(--darkFloatBackground);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--blue900);
+  }
+}

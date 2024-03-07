@@ -1,0 +1,31 @@
+{
+  appId: 'com.livemehere.recordEditor',
+  asar: true,
+  productName: 'recordEditor',
+  copyright: 'Copyright © year ${author}',
+  directories: {
+    output: 'release/${version}'
+  },
+  publish: {
+    provider: 'github',
+    owner: 'livemehere',
+    repo: 'record-editor',
+  },
+  files: [
+    "dist/**/*"
+  ],
+  win: {
+    icon: 'icons/icon.ico',
+    target: 'nsis',
+    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}"
+  },
+  mac: {
+    icon: 'icons/icon.icns',
+    target: 'dmg',
+    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}"
+  },
+  asarUnpack:[
+   "node_modules/@ffmpeg-installer/${os}-${arch}/ffmpeg",
+   "node_modules/@ffprobe-installer/${os}-${arch}/ffprobe"
+  ]
+}

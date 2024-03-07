@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "useDefineForClassFields": true,
+    "strictPropertyInitialization": false,
+    "moduleResolution": "node",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "dist",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@renderer/*": ["modules/renderer/src/*"],
+      "@public/*": ["modules/renderer/public/*"],
+      "@main/*": ["modules/renderer/main/*"],
+      "@preload/*": ["modules/renderer/preload/*"],
+    },
+  },
+  "include": [
+    "node_modules",
+    "modules/main/**/*.ts",
+    "modules/preload/**/*.ts",
+    "modules/renderer/**/*",
+    "types/*.d.ts",
+  ]
+}
