@@ -1809,6 +1809,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"async-modal-react@npm:^2.1.7":
+  version: 2.1.7
+  resolution: "async-modal-react@npm:2.1.7"
+  dependencies:
+    react: "npm:^18.2.0"
+    react-dom: "npm:^18.2.0"
+  checksum: 10c0/c88cc2f62fc848a3793a0cbac37f6e3f75de964f175a4b9419a8e06ee9ee130387998471e7bad9cc61d4647578b9c2be246629e1334ac09f4bd2cc70466be857
+  languageName: node
+  linkType: hard
+
 "async@npm:>=0.2.9, async@npm:^3.2.3":
   version: 3.2.5
   resolution: "async@npm:3.2.5"
@@ -4576,6 +4586,7 @@ __metadata:
     "@types/react-dom": "npm:^18.2.19"
     "@types/uuid": "npm:^9.0.8"
     "@vitejs/plugin-react": "npm:^4.2.1"
+    async-modal-react: "npm:^2.1.7"
     chalk: "npm:^5.3.0"
     cross-env: "npm:^7.0.3"
     cross-spawn: "npm:^7.0.3"

@@ -15,6 +15,7 @@ type InvokeKey =
 
 export type ConnectStreamOptions = {
   selector: string;
+  audio?: boolean;
 };
 
 interface AppInterface {

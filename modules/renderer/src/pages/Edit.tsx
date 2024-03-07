@@ -19,6 +19,8 @@ import { BiCartDownload } from "react-icons/bi";
 import { TfiVideoClapper } from "react-icons/tfi";
 import { FaCropAlt } from "react-icons/fa";
 import { CiSaveDown2 } from "react-icons/ci";
+import { useModal } from "async-modal-react";
+import { GifOptionModal } from "@renderer/components/modals/GifOptionModal";
 
 const VIDEO_WRAPPER_WIDTH = 1600;
 const VIDEO_WRAPPER_HEIGHT = 750;
@@ -43,6 +45,7 @@ export const Edit: FC = () => {
     h: 0,
   });
   const [isCrop, setIsCrop] = useState(false);
+  const { pushModal } = useModal();
 
   const toggleCrop = () => {
     setIsCrop(!isCrop);
@@ -104,7 +107,7 @@ export const Edit: FC = () => {
     }
   };
 
-  const finishEdit = async () => {
+  const createMp4 = async () => {
     let id = 0;
     const trimmedDuration = maxTimestamp - minTimestamp;
     const args: TrimVideoOptions = {
@@ -116,6 +119,38 @@ export const Edit: FC = () => {
       duration: trimmedDuration,
       crop: isCrop ? crop : undefined,
       originSize,
+    };
+    try {
+      // @ts-ignore
+      id = window.app.on("trim-video:progress", (progress: number) => {
+        setLoading(true, `${(progress * 100).toFixed(0)}%`);
+      });
+      // @ts-ignore
+      const res = await window.app.invoke("trim-video", args);
+      // @ts-ignore
+      await window.app.invoke("open-dir", "result-video");
+    } catch (e) {
+    } finally {
+      setLoading(false);
+      // @ts-ignore
+      window.app.off(id);
+    }
+  };
+
+  const createGif = async () => {
+    const fps = await pushModal<number>(GifOptionModal);
+    let id = 0;
+    const trimmedDuration = maxTimestamp - minTimestamp;
+    const args: TrimVideoOptions = {
+      inputPath: selectFile.path,
+      outputPath: selectFile.path
+        .replace("cache-video", "result-video")
+        .replace("webm", "gif"),
+      startTime: minTimestamp,
+      duration: trimmedDuration,
+      crop: isCrop ? crop : undefined,
+      originSize,
+      fps,
     };
     try {
       // @ts-ignore
@@ -296,11 +331,18 @@ export const Edit: FC = () => {
           `}
         >
           <Button
-            onClick={finishEdit}
+            onClick={createMp4}
             icon={<CiSaveDown2 strokeWidth={2} />}
             size={"medium"}
           >
-            저장
+            동영상 저장
+          </Button>
+          <Button
+            onClick={createGif}
+            icon={<CiSaveDown2 strokeWidth={2} />}
+            size={"medium"}
+          >
+            GIF 저장
           </Button>
           <Button
             type={isCrop ? "warm" : "gray"}

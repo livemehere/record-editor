@@ -28,7 +28,7 @@ export type TrimVideoOptions = {
   onEnd?: (...args: any[]) => void;
 };
 
-export function trimVideo(options: TrimVideoOptions) {
+export function createResultFile(options: TrimVideoOptions) {
   const command = ffmpeg(options.inputPath);
 
   const videoFilters = [];

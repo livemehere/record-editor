@@ -36,6 +36,7 @@
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@ffprobe-installer/ffprobe": "^2.1.2",
     "@tanstack/react-query": "^5.22.2",
+    "async-modal-react": "^2.1.7",
     "dayjs": "^1.11.10",
     "electron-updater": "6.1.8",
     "ffmetadata": "^1.7.0",

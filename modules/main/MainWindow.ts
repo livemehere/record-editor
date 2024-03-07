@@ -15,7 +15,7 @@ import { setting } from "./setting";
 import path, { join } from "path";
 import * as fs from "fs";
 import { dataPath } from "./dataPath";
-import { getFileMetaData, trimVideo } from "./ffmpeg-util";
+import { getFileMetaData, createResultFile } from "./ffmpeg-util";
 import rimraf from "rimraf";
 import { VideoCacheData, videoCacheManager } from "./videoCache";
 
@@ -192,7 +192,7 @@ export class MainWindow {
       /** 폴더 없으면 생성 */
       dataPath.getFolder("result-video");
       return new Promise((resolve, reject) => {
-        trimVideo({
+        createResultFile({
           ...args,
           onProgress: (progress) => {
             this.window.webContents.send("trim-video:progress", progress);

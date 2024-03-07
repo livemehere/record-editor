@@ -28,7 +28,7 @@ contextBridge.exposeInMainWorld("app", {
   },
   connectStream: async (id: string, options: ConnectStreamOptions) => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
+      const videoStream = await navigator.mediaDevices.getUserMedia({
         audio: false,
         video: {
           // @ts-ignore
@@ -39,12 +39,29 @@ contextBridge.exposeInMainWorld("app", {
           },
         },
       });
+
+      const audioStream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          // @ts-ignore
+          mandatory: {
+            chromeMediaSource: "desktop",
+          },
+        },
+        video: {
+          // @ts-ignore
+          mandatory: {
+            chromeMediaSource: "desktop",
+          },
+        },
+      });
+
+      console.log(audioStream.getAudioTracks());
       const selector = options.selector;
       const video = document.querySelector(selector) as HTMLVideoElement;
       if (!video) {
         throw new Error(`${selector} not found`);
       }
-      video.srcObject = stream;
+      video.srcObject = videoStream;
       video.autoplay = true;
     } catch (e) {
       debug(e);

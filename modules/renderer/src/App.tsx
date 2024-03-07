@@ -6,6 +6,7 @@ import router from "@renderer/router";
 import { useDarkMode } from "@renderer/store/darkModeAtom";
 import { GlobalLoadingSpinner } from "@renderer/components/GlobalLoadingSpinner";
 import { Toaster } from "react-hot-toast";
+import { ModalProvider } from "async-modal-react";
 
 const App = () => {
   useDarkMode();
@@ -18,17 +19,23 @@ const App = () => {
         containerStyle={{ marginTop: "24px", marginLeft: "6px" }}
       />
       <HashRouter>
-        <Layout>
-          <Routes>
-            {router.map((route, index) => (
-              <Route
-                key={index}
-                path={route.path}
-                element={<route.element />}
-              />
-            ))}
-          </Routes>
-        </Layout>
+        <ModalProvider
+          closeOnOutsideClick={true}
+          disableBodyScrollWhenOpen={true}
+          closeOnRouteChange={true}
+        >
+          <Layout>
+            <Routes>
+              {router.map((route, index) => (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={<route.element />}
+                />
+              ))}
+            </Routes>
+          </Layout>
+        </ModalProvider>
       </HashRouter>
     </>
   );
