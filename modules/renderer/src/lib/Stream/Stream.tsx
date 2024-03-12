@@ -86,46 +86,35 @@ export const Stream: FC<Props> = ({ onSuccess, onChangeStatus, control }) => {
         });
         mediaRecorderRef.current = recorder;
 
-        recorder.onstart = () => {
+        recorder.onstart = async () => {
           startTimestamp.current = Date.now();
           chunk.current = [];
+          // @ts-ignore
+          await window.app.invoke("cache-video:init");
           onChangeStatus?.("recording");
           debug("recorder start");
         };
 
-        recorder.ondataavailable = (e) => {
-          chunk.current.push(e.data);
+        recorder.ondataavailable = async (e) => {
+          const blob = e.data;
+          const buffer = await blob.arrayBuffer();
+
+          // @ts-ignore
+          await window.app.invoke('cache-video:chunk', buffer);
         };
 
-        recorder.onstop = () => {
+        recorder.onstop = async () => {
           const source = sourceRef.current;
           if (!source) {
             throw new Error("sourceRef.current is undefined");
           }
 
           const duration = (Date.now() - startTimestamp.current) / 1000;
-          const blob = new Blob(chunk.current, {
-            type: "video/webm",
-          });
-
-          /** 녹화를 다 하면, 그때 비디오 사이즈를 그대로 저장함.  */
-          blob.arrayBuffer().then((buffer) => {
-            const { width, height } = stream.getVideoTracks()[0].getSettings();
-            // @ts-ignore
-            window.app
-              .invoke<VideoCacheData>(
-                "cache-video:save",
-                buffer,
-                duration,
-                width,
-                height,
-              )
-              .then((cacheData: VideoCacheData) => {
-                /** Clean up */
-                this.cleanUp();
-                onSuccess?.(cacheData);
-              });
-          });
+          const { width, height } = stream.getVideoTracks()[0].getSettings();
+          // @ts-ignore
+          const cacheData = await window.app.invoke('cache-video:save',duration,width,height);
+          this.cleanUp();
+          onSuccess?.(cacheData);
         };
 
         recorder.onerror = (e) => {
@@ -133,7 +122,7 @@ export const Stream: FC<Props> = ({ onSuccess, onChangeStatus, control }) => {
           sourceRef.current = undefined;
           throw e;
         };
-        recorder.start();
+        recorder.start(1000);
       },
       stop() {
         mediaRecorderRef.current?.stop();

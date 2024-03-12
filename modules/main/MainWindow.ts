@@ -18,6 +18,7 @@ import { dataPath } from "./dataPath";
 import { getFileMetaData, createResultFile } from "./ffmpeg-util";
 import rimraf from "rimraf";
 import { VideoCacheData, videoCacheManager } from "./videoCache";
+import * as stream from "stream";
 
 export type CaptureSource = DesktopCapturerSource & {
   dataURL: string;
@@ -27,6 +28,10 @@ export type CaptureSource = DesktopCapturerSource & {
 export class MainWindow {
   private window: BrowserWindow;
   private bounds = setting.get("bounds");
+
+  private ws:stream.Writable | null = null;
+  private filePath:string = "";
+  private fileName:string = "";
 
   private init = () => {
     const bound: BrowserWindowConstructorOptions = this.bounds.main || {
@@ -131,33 +136,45 @@ export class MainWindow {
       return this.getConnectedScreens();
     });
 
+    ipcMain.handle("cache-video:init",(event,arrayBuffer:ArrayBuffer)=>{
+        const fileName = `${Date.now()}.webm`;
+        const filePath = path.join(
+            dataPath.getFolder("cache-video"),
+            fileName,
+        );
+        this.ws = fs.createWriteStream(filePath);
+        this.fileName = fileName;
+        this.filePath = filePath;
+    })
+
+    ipcMain.handle("cache-video:chunk",(event,arrayBuffer:ArrayBuffer)=>{
+      this.ws?.write(Buffer.from(arrayBuffer));
+    })
+
     ipcMain.handle(
       "cache-video:save",
       async (
         event,
-        arrayBuffer: ArrayBuffer,
         duration: number,
         width: number,
         height: number,
       ) => {
         try {
-          const buffer = Buffer.from(arrayBuffer);
-          const fileName = `${Date.now()}.webm`;
-          const filePath = path.join(
-            dataPath.getFolder("cache-video"),
-            fileName,
-          );
-          fs.writeFileSync(filePath, buffer);
+          this.ws?.end();
           const cacheData: VideoCacheData = {
-            fileName,
-            filePath,
+            fileName:this.fileName,
+            filePath:this.filePath,
             duration,
             size: {
               width,
               height,
             },
           };
-          videoCacheManager.set(fileName, cacheData);
+          videoCacheManager.set(this.fileName, cacheData);
+          this.ws = null;
+          this.filePath = "";
+          this.fileName = "";
+
           return cacheData;
         } catch (e) {
           console.error(e);

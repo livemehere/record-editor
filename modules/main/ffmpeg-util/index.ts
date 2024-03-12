@@ -37,7 +37,6 @@ export function createResultFile(options: TrimVideoOptions) {
     const y = Math.max(0, options.crop.y);
     const w = Math.min(options.originSize.width - 1, options.crop.w);
     const h = Math.min(options.originSize.height - 1, options.crop.h);
-    console.log(x, y, w, h);
     videoFilters.push(`crop=${w}:${h}:${x}:${y}`);
   } else {
     videoFilters.push(
