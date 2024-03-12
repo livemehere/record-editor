@@ -28,6 +28,7 @@ class VideoCacheManager {
   set(fileName: string, data: VideoCacheData) {
     this.data[fileName] = data;
     fs.writeFileSync(this.path, JSON.stringify(this.data));
+    this.data = parseDataFile(this.path, {});
   }
 
   clear() {

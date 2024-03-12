@@ -55,7 +55,6 @@ contextBridge.exposeInMainWorld("app", {
         },
       });
 
-      console.log(audioStream.getAudioTracks());
       const selector = options.selector;
       const video = document.querySelector(selector) as HTMLVideoElement;
       if (!video) {

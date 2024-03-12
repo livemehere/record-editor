@@ -45,7 +45,7 @@ const Layout: FC<Props> = ({ children }) => {
     >
       <div className="dragbar">
         <img src={LogoImg} alt="logo" />
-        <h1>Screen Recorder</h1>
+        <h1>Record Editor</h1>
       </div>
       <Nav />
       <main

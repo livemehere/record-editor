@@ -94,7 +94,6 @@ export const EditCanvasLayer: FC<Props> = ({
             }}
             onTransformEnd={() => {
               const node = rectRef.current!;
-              console.log(node);
               onChangeRectArea?.({
                 x: node.x(),
                 y: node.y(),
