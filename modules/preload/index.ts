@@ -40,21 +40,6 @@ contextBridge.exposeInMainWorld("app", {
         },
       });
 
-      const audioStream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          // @ts-ignore
-          mandatory: {
-            chromeMediaSource: "desktop",
-          },
-        },
-        video: {
-          // @ts-ignore
-          mandatory: {
-            chromeMediaSource: "desktop",
-          },
-        },
-      });
-
       const selector = options.selector;
       const video = document.querySelector(selector) as HTMLVideoElement;
       if (!video) {
