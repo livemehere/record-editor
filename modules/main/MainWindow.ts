@@ -187,7 +187,9 @@ export class MainWindow {
     ipcMain.handle(
       "video:list",
       async (event, type: "cache" | "result" = "cache") => {
-        const files = fs.readdirSync(dataPath.getFolder(`${type}-video`));
+        const files = fs.readdirSync(dataPath.getFolder(`${type}-video`)).filter(file=>{
+            return file.endsWith(".webm") || file.endsWith(".mp4");
+        })
         let result = [];
         for (let i = 0; i < files.length; i++) {
           const file = files[i];
