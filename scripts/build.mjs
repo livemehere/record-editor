@@ -35,20 +35,17 @@ async function build() {
   if(os === 'win' || os === 'all'){
     await electronBuild({
       targets: createTargets([Platform.WINDOWS], "nsis", "x64"),
-      publish: "always",
     });
   }
 
   if(os === 'mac' || os === 'all'){
     await electronBuild({
-      targets: createTargets([Platform.MAC], "dmg", "arm64"),    publish: "always",
+      targets: createTargets([Platform.MAC], "dmg", "arm64"),
     });
     await electronBuild({
-      targets: createTargets([Platform.MAC], "dmg", "x64"),    publish: "always",
+      targets: createTargets([Platform.MAC], "dmg", "x64"),
     });
   }
-
-
 
 }
 
