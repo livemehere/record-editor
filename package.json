@@ -28,7 +28,8 @@
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 BUILD_OS=all node scripts/build.mjs --all",
     "build:mac": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 BUILD_OS=mac node scripts/build.mjs",
-    "build:win": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 BUILD_OS=win node scripts/build.mjs"
+    "build:win": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 BUILD_OS=win node scripts/build.mjs",
+    "icons": "png2icons icons/icon.png icons/icon -allp -bc -i"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -48,6 +49,7 @@
     "jotai-immer": "^0.3.0",
     "konva": "^9.3.5",
     "lottie-react": "^2.4.0",
+    "png2icons": "^2.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",

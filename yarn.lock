@@ -4248,6 +4248,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"png2icons@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "png2icons@npm:2.0.1"
+  bin:
+    png2icons: ./png2icons-cli.js
+  checksum: 10c0/76fe204b482b5d6b5b5a19a5157a2def1d12b47abc6ba877d9c193644d320382ee2ddbb7ec80e919c32141a4936d10894dd14e682ec2087099961c11832059e4
+  languageName: node
+  linkType: hard
+
 "postcss@npm:^8.4.35":
   version: 8.4.35
   resolution: "postcss@npm:8.4.35"
@@ -4604,6 +4613,7 @@ __metadata:
     jotai-immer: "npm:^0.3.0"
     konva: "npm:^9.3.5"
     lottie-react: "npm:^2.4.0"
+    png2icons: "npm:^2.0.1"
     prettier: "npm:^3.2.5"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
